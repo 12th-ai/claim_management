@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
 
 app.get('/api', (req, res) => {
 
-    res.json({ message: 'hello welcome  ' });
+    res.json({ message: 'hello welcome to my api' });
 
 })
 
