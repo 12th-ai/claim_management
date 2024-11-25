@@ -21,7 +21,7 @@ jobs:
         username: mihigoprince@insurance.abyride.com # Replace with your FTP username
         password: MIHIGOprince12@ # Replace with your FTP password
         protocol: ftps  # Use FTPS for secure transfer
-        local-dir: /frontend/  # Path to the frontend folder in your repo
+        local-dir: ./claim_management/frontend/  # Path to the frontend folder in your repo
         server-dir: /public_html/claim_management/frontend/  # Target folder for frontend on cPanel
         exclude: |
           **/.git*
