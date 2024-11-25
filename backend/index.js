@@ -9,13 +9,6 @@ const bodyParser = require('body-parser');
 const helmet = require("helmet");
 const xssClean = require("xss-clean");
 
-
-//Declare routersend point 
-
-
-
-
-
 const app = express();
 
 // Middleware
@@ -45,10 +38,8 @@ app.options('*', cors(corsOptions)); // Handle preflight requests
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
-
-
 // Sync the database with Sequelize
-sequelize.sync({ alter: true })
+sequelize.sync({ force: true })
     .then(() => console.log('Database synced successfully'))
     .catch((err) => {
         console.error('Error syncing database:', err);
@@ -63,7 +54,7 @@ app.use((err, req, res, next) => {
 
 app.get('/api', (req, res) => {
 
-    res.json({ message: 'iyi api ni danger' });
+    res.json({ message: 'nukuri kwimana ni danger ' });
 
 })
 
