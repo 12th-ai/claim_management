@@ -9,6 +9,13 @@ const bodyParser = require('body-parser');
 const helmet = require("helmet");
 const xssClean = require("xss-clean");
 
+
+//Declare routersend point 
+
+
+
+
+
 const app = express();
 
 // Middleware
@@ -18,6 +25,7 @@ app.use(rateLimiter); // Rate limiting to prevent DDoS attacks
 app.use(cookieParser());
 app.use(express.json()); // Parses JSON requests
 app.use(express.urlencoded({ extended: true }));
+
 
 // Increase limits for body-parser to handle large requests
 app.use(bodyParser.json({ limit: '1000mb' }));
@@ -36,8 +44,11 @@ app.options('*', cors(corsOptions)); // Handle preflight requests
 // Serve static files (for uploaded images)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+
+
 // Sync the database with Sequelize
-sequelize.sync({ force: true })
+sequelize.sync({ alter: true })
     .then(() => console.log('Database synced successfully'))
     .catch((err) => {
         console.error('Error syncing database:', err);
@@ -52,7 +63,7 @@ app.use((err, req, res, next) => {
 
 app.get('/api', (req, res) => {
 
-    res.json({ message: 'api is working well' });
+    res.json({ message: 'jhfgsdjfgdsfjgsdfjgdsfhjsdgfksmdhjdfsd' });
 
 })
 

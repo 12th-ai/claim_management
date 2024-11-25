@@ -19,7 +19,7 @@ const Admin = sequelize.define('Admin', {
         type: DataTypes.STRING,
         allowNull: true
     },
-    active: {
+    IsActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
