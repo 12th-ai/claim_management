@@ -34,7 +34,7 @@ jobs:
       with:
         server: ftp.abyride.com
         username: mihigoprince@insurance.abyride.com
-        password: your-password-here
+        password: MIHIGOprince12@
         protocol: ftps  # Use FTPS for secure transfer
         local-dir: ./frontend/dist/  # Correct path with trailing slash
         server-dir: /public_html/claim_management/frontend/  # Target folder for frontend on cPanel
@@ -63,7 +63,7 @@ jobs:
       with:
         server: ftp.abyride.com
         username: mihigoprince@insurance.abyride.com
-        password: your-password-here
+        password: MIHIGOprince12@
         protocol: ftps
         local-dir: ./backend/  # Correct path with trailing slash (build directory if necessary)
         server-dir: /public_html/claim_management/backend/  # Target folder for backend on cPanel
