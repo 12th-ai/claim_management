@@ -22,7 +22,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps  # Use FTPS for secure transfer
         local-dir: ./frontend  # Path to the frontend folder in your repo
-        server-dir: /public_html/frontend  # Target folder for frontend on cPanel
+        server-dir: /public_html/claim_management/frontend  # Target folder for frontend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
@@ -37,7 +37,7 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftps
         local-dir: ./backend  # Path to the backend folder in your repo
-        server-dir: /public_html/backend  # Target folder for backend on cPanel
+        server-dir: /public_html/claim_management/backend  # Target folder for backend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
