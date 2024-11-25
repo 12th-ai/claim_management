@@ -21,11 +21,11 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1>welcome to my insurance application</h1>
+    <h1>welcome to my api </h1>
 
     <!-- Display data from the GET request -->
     <div v-if="apiData">
-      <h2>Message from backend </h2>
+      <h2>Message</h2>
       <p>{{ apiData.message }}</p> <!-- Display the message received from the API -->
     </div>
 
