@@ -17,11 +17,11 @@ jobs:
     - name: Deploy Frontend
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ftp.abyride.com # Replace with your FTP server
+        username: mihigoprince@insurance.abyride.com # Replace with your FTP username
+        password: MIHIGOprince12@ # Replace with your FTP password
         protocol: ftps  # Use FTPS for secure transfer
-        local-dir: ./frontend  # Path to the frontend folder in your repo
+        local-dir: /public_html/claim_management/frontend  # Path to the frontend folder in your repo
         server-dir: /public_html/claim_management/frontend  # Target folder for frontend on cPanel
         exclude: |
           **/.git*
@@ -32,11 +32,11 @@ jobs:
     - name: Deploy Backend
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ftp.abyride.com # Replace with your FTP server
+        username: mihigoprince@insurance.abyride.com # Replace with your FTP username
+        password: MIHIGOprince12@ # Replace with your FTP password
         protocol: ftps
-        local-dir: ./backend  # Path to the backend folder in your repo
+        local-dir: /public_html/claim_management/backend  # Path to the backend folder in your repo
         server-dir: /public_html/claim_management/backend  # Target folder for backend on cPanel
         exclude: |
           **/.git*
