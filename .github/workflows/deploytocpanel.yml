@@ -14,32 +14,47 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3  # Check out your repository code
 
-    - name: Deploy Frontend
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Set your Node.js version (e.g., 16)
+
+    - name: Install Dependencies (Frontend)
+      run: |
+        cd frontend
+        npm install  # Install frontend dependencies
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build  # Build the frontend (make sure your package.json has a "build" script)
+
+    - name: Deploy Frontend to cPanel
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ftp.abyride.com # Replace with your FTP server
-        username: mihigoprince@insurance.abyride.com # Replace with your FTP username
-        password: MIHIGOprince12@ # Replace with your FTP password
+        server: ftp.abyride.com
+        username: mihigoprince@insurance.abyride.com
+        password: your-password-here
         protocol: ftps  # Use FTPS for secure transfer
-        local-dir: /public_html/claim_management/frontend/ # Path to the frontend folder in your repo
-        server-dir: /public_html/claim_management/frontend/  # Target folder for frontend on cPanel
+        local-dir: ./frontend/dist  # Path to the built frontend (e.g., 'dist' folder after build)
+        server-dir: /public_html/claim_management/frontend  # Target folder for frontend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
           **/.github/**
           **/README.md
 
-    - name: Deploy Backend
+    - name: Deploy Backend to cPanel
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
-        server: ftp.abyride.com # Replace with your FTP server
-        username: mihigoprince@insurance.abyride.com # Replace with your FTP username
-        password: MIHIGOprince12@ # Replace with your FTP password
+        server: ftp.abyride.com
+        username: mihigoprince@insurance.abyride.com
+        password: your-password-here
         protocol: ftps
-        local-dir: /public_html/claim_management/backend/  # Path to the backend folder in your repo
-        server-dir: /public_html/claim_management/backend/  # Target folder for backend on cPanel
+        local-dir: ./backend  # Path to the backend folder in your repo
+        server-dir: /public_html/claim_management/backend  # Target folder for backend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
-          **/.github/**
+          **/.github**
           **/README.md
