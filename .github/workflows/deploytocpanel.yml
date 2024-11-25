@@ -53,11 +53,6 @@ jobs:
         cd backend
         npm install  # Install backend dependencies
 
-    - name: Build Backend (if necessary)
-      run: |
-        cd backend
-        npm run build  # Add a build step if you use TypeScript or bundling
-
     - name: Deploy Backend to cPanel
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
