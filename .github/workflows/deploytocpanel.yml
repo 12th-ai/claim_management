@@ -1,0 +1,69 @@
+name: Publish Website to cPanel
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to `main` branch
+
+jobs:
+  deploy:
+    name: Deploy Frontend and Backend to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3  # Check out your repository code
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Set your Node.js version (e.g., 16)
+
+    - name: Install Dependencies (Frontend)
+      run: |
+        cd frontend
+        npm install  # Install frontend dependencies
+
+    - name: Build Frontend
+      run: |
+        cd frontend
+        npm run build  # Build the frontend (make sure your package.json has a "build" script)
+
+    - name: Deploy Frontend to cPanel
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ftp.abyride.com
+        username: mihigoprince@insurance.abyride.com
+        password: MIHIGOprince12@
+        protocol: ftps  # Use FTPS for secure transfer
+        local-dir: ./frontend/dist/  # Correct path with trailing slash
+        server-dir: /public_html/claim_management/frontend/  # Target folder for frontend on cPanel
+        exclude: |
+          **/.git*
+          **/node_modules/**
+          **/.github/**
+          **/README.md
+
+    # -------------------------
+    # Backend Build & Deploy Step
+    # -------------------------
+
+    - name: Install Dependencies (Backend)
+      run: |
+        cd backend
+        npm install  # Install backend dependencies
+
+    - name: Deploy Backend to cPanel
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ftp.abyride.com
+        username: mihigoprince@insurance.abyride.com
+        password: MIHIGOprince12@
+        protocol: ftps
+        local-dir: ./backend/  # Correct path with trailing slash (build directory if necessary)
+        server-dir: /public_html/claim_management/backend/  # Target folder for backend on cPanel
+        exclude: |
+          **/.git*
+          **/node_modules/**
+          **/.github**
+          **/README.md
