@@ -1,0 +1,45 @@
+name: Publish Website to cPanel
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to `main` branch
+
+jobs:
+  deploy:
+    name: Deploy Frontend and Backend to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3  # Check out your repository code
+
+    - name: Deploy Frontend
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftps  # Use FTPS for secure transfer
+        local-dir: ./frontend  # Path to the frontend folder in your repo
+        server-dir: /public_html/frontend  # Target folder for frontend on cPanel
+        exclude: |
+          **/.git*
+          **/node_modules/**
+          **/.github/**
+          **/README.md
+
+    - name: Deploy Backend
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftps
+        local-dir: ./backend  # Path to the backend folder in your repo
+        server-dir: /public_html/backend  # Target folder for backend on cPanel
+        exclude: |
+          **/.git*
+          **/node_modules/**
+          **/.github/**
+          **/README.md
