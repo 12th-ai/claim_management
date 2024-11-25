@@ -33,11 +33,11 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ftp.abyride.com
-        username: mihigoprince@insurance.abyride.com
+        username: mihigoprince@abyride.com
         password: MIHIGOprince12@
         protocol: ftps  # Use FTPS for secure transfer
         local-dir: ./frontend/dist/  # Correct path with trailing slash
-        server-dir: /public_html/claim_management/frontend/  # Target folder for frontend on cPanel
+        server-dir: /claim_management/frontend/  # Target folder for frontend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
@@ -57,11 +57,11 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
       with:
         server: ftp.abyride.com
-        username: mihigoprince@insurance.abyride.com
+        username: mihigoprince@abyride.com
         password: MIHIGOprince12@
         protocol: ftps
         local-dir: ./backend/  # Correct path with trailing slash (build directory if necessary)
-        server-dir: /public_html/claim_management/backend/  # Target folder for backend on cPanel
+        server-dir: /claim_management/backend/  # Target folder for backend on cPanel
         exclude: |
           **/.git*
           **/node_modules/**
