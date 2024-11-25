@@ -63,7 +63,7 @@ app.use((err, req, res, next) => {
 
 app.get('/api', (req, res) => {
 
-    res.json({ message: 'jhfgsdjfgdsfjgsdfjgdsfhkjwejsdgfksmdhjdfsd' });
+    res.json({ message: 'iyi api ni danger' });
 
 })
 
