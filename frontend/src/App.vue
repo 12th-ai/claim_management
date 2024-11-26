@@ -10,7 +10,7 @@ const errorMessage = ref('');
 onMounted(async () => {
   try {
     // Send GET request to your '/api' endpoint
-    const response = await axios.get('/api'); // Adjust the URL if necessary
+    const response = await axios.get('https://insurance.abyride.com/api'); // Adjust the URL if necessary
     apiData.value = response.data; // Store the response data in apiData
   } catch (error) {
     console.error('Error fetching data:', error);
