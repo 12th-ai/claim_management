@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/admin/auth'; // Change this URL to your backend endpoint
+const API_URL = 'https://claim-management-backend.onrender.com/api/admin/auth'; // Change this URL to your backend endpoint
 
 export const authService = {
     registerUser: async(userData) => {
