@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/admin/module'; // Backend API URL
+const API_URL = 'https://claim-management-backend.onrender.com/api/admin/module'; // Backend API URL
 
 export const ModuleService = {
     // Fetch all modules
