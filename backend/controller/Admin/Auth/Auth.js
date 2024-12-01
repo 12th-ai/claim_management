@@ -66,6 +66,7 @@ const Login = async(req, res) => {
                 email: admin.email,
                 username: admin.username,
                 phoneNumber: admin.phoneNumber,
+                profileImage: admin.profileImage,
             },
             process.env.JWT_SECRET, { expiresIn: '3h' }
         );

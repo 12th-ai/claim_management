@@ -1,6 +1,6 @@
 <template>
-  <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-    <div class="bg-overlay"></div>
+  <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100" >
+    
     <div class="auth-page-content overflow-hidden pt-lg-5">
       <div class="container">
         <div class="row">
@@ -8,7 +8,7 @@
 
 
 
-            <div class="card overflow-hidden m-0">
+            <div class="card overflow-hidden m-0" style="width:300px">
               <div class="row justify-content-center g-0">
                
 <AuthLeft />

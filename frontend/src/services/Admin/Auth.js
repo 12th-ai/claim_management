@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/admin/auth'; // Change this URL to your backend endpoint
+const API_URL =
+    import.meta.env.VITE_API_URL;
 
 export const authService = {
     registerUser: async(userData) => {
