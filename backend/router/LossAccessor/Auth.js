@@ -5,7 +5,7 @@ const {
     Login,
     GetProfile,
     Logout
-} = require('../../controller/Loss_Accessor/Auth');
+} = require('../../controller/loss_Accessor/Auth');
 const LossAccessorAuthMiddleware = require('../../Middleware/security/Loss_Accessor');
 const router = express.Router();
 

@@ -5,7 +5,7 @@ const {
     getQuotations,
     getQuotationById,
     Get_Quotation_Report
-} = require("../../controller/Loss_Accessor/Quotation");
+} = require("../../controller/loss_Accessor/Quotation");
 const LossAccessorAuthMiddleware = require('../../Middleware/security/Loss_Accessor'); // Middleware for security
 const router = express.Router();
 
