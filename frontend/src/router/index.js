@@ -34,7 +34,7 @@ const router = createRouter({
 
         // admin dahboard declaration and use start `
         {
-            path: "/admin",
+            path: "/",
             component: AdminLayout,
             children: [{
                     path: "",
