@@ -34,13 +34,10 @@ const router = createRouter({
 
         // admin dahboard declaration and use start `
         {
-            path: "/",
+            path: "/admin",
             component: AdminLayout,
-            children: [{
-                    path: "",
-                    redirect: { name: "login" }, // Redirect to login as default
-                },
-                {
+            children: [
+                     {
                     path: "",
                     component: AuthLayout,
                     children: [{
