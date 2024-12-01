@@ -38,7 +38,7 @@ const router = createRouter({
             component: AdminLayout,
             children: [
                      {
-                    path: "",
+                    path: "/",
                     component: AuthLayout,
                     children: [{
                             path: "",
