@@ -18,7 +18,7 @@ const Login = async(req, res) => {
         // Find accessor by email
         const accessor = await Accessor.findOne({ where: { email } });
         if (!accessor) {
-            return res.status(404).json({ message: 'Email not found.' });
+            return res.status(404).json({ message: 'Email nojhdwejwet found.' });
         }
 
         // Check if password matches
