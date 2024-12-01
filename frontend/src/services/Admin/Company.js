@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/admin/company'; // Backend API URL for companies
+const API_URL = 'https://claim-management-backend.onrender.com/api/admin/company'; // Backend API URL for companies
 
 export const CompanyService = {
     // Fetch all companies
