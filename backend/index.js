@@ -23,8 +23,8 @@ const CompanyAccessor = require('./router/insurance_company/Loss_accessor');
 const Company_Quotation = require('./router/insurance_company/Quotation');
 
 
-const AccessorAuth = require('./router/lossAccessor/Auth');
-const Accessor_Quotation = require('./router/lossAccessor/Quotation');
+const AccessorAuth = require('./router/LossAccessor/Auth');
+const Accessor_Quotation = require('./router/LossAccessor/Quotation');
 
 
 // Multer configuration for file uploads (profile images)
