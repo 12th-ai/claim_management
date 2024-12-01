@@ -1,5 +1,5 @@
 <template>
-  <!-- ============================================================== -->
+
   <div class="main-content">
     <div class="page-content" id="main-content">
       <div class="container-fluid" style="margin-top: 20px; border-radius: 20px">
@@ -289,7 +289,7 @@ export default {
     // Computed property to handle company logo
     imageUrl() {
       if (this.company.companyLogo) {
-        return `http://localhost/Mua_Insurance/backend/uploads/${this.company.companyLogo}`;
+        return `${import.meta.env.VITE_API_URL}${this.company.companyLogo}`;
       }
       return require('../../../assets/images/users/avatar-1.jpg'); // Fallback image if logo is not available
     }
