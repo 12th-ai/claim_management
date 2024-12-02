@@ -317,9 +317,17 @@ export default {
     };
   },
   computed: {
-    parsedSupportingDocuments() {
-      return JSON.parse(this.quotation.supportingDocuments || "[]");
-    },
+  parsedSupportingDocuments() {
+    try {
+      // Check if supportingDocuments is a string or an array/object
+      return typeof this.quotation.supportingDocuments === 'string' 
+        ? JSON.parse(this.quotation.supportingDocuments) 
+        : this.quotation.supportingDocuments || [];
+    } catch (error) {
+      console.error("Error parsing supporting documents:", error);
+      return [];
+    }
+  },
   },
   methods: {
     goBack() {
