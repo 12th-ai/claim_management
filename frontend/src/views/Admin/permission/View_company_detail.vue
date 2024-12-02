@@ -289,7 +289,7 @@ export default {
     // Computed property to handle company logo
     imageUrl() {
       if (this.company.companyLogo) {
-        return `${import.meta.env.VITE_API_URL}${this.company.companyLogo}`;
+        return `${import.meta.env.VITE_IMAGE_URL}${this.company.companyLogo}`;
       }
       return require('../../../assets/images/users/avatar-1.jpg'); // Fallback image if logo is not available
     }

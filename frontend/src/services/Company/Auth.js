@@ -1,11 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'https://claim-management-backend.onrender.com/api/company/auth'; // Change this URL to your backend endpoint
+
+const API_URL =
+    import.meta.env.VITE_API_URL;
+
 
 export const authService = {
     registerUser: async(userData) => {
         try {
-            const response = await axios.post(`${API_URL}/register`, userData);
+            const response = await axios.post(`${API_URL}/api/company/auth/register`, userData);
             return response.data; // Success response
         } catch (error) {
             // Check if there's a specific error message
@@ -21,7 +24,7 @@ export const authService = {
     LoginUser: async(userData) => {
         try {
             const response = await axios.post(
-                `${API_URL}/login`,
+                `${API_URL}/api/company/auth/login`,
                 userData, // Request body
                 {
                     withCredentials: true, // Ensures cookies are sent
@@ -40,7 +43,7 @@ export const authService = {
     getProfile: async() => {
         try {
             // Send request with credentials (cookies) automatically handled by Axios
-            const response = await axios.get(`${API_URL}/profile`, {
+            const response = await axios.get(`${API_URL}/api/company/auth/profile`, {
                 withCredentials: true, // Ensure credentials (cookies) are sent with the request
             });
 
@@ -55,7 +58,7 @@ export const authService = {
     logout: async() => {
         try {
             const response = await axios.post(
-                `${API_URL}/logout`, {}, {
+                `${API_URL}/api/company/auth/logout`, {}, {
                     headers: {
                         "Content-Type": "application/json",
                     },

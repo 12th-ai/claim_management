@@ -54,7 +54,7 @@ app.use(express.urlencoded({ extended: true, limit: '100mb' })); // for URL-enco
 
 // CORS configuration
 const corsOptions = {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5174",
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
     credentials: true,

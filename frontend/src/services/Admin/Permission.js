@@ -1,13 +1,16 @@
 import axios from 'axios';
 
-const API_URL = 'https://claim-management-backend.onrender.com/api/admin/permission'; // Backend API URL for companies
+const API_URL =
+    import.meta.env.VITE_API_URL;
+
+
 
 export const PermissionService = {
 
     // Assign modules to company
     async assignModulesToCompany(companyId, moduleIds) {
         try {
-            const response = await axios.post(`${API_URL}/assign`, { companyId, moduleIds });
+            const response = await axios.post(`${API_URL}/api/admin/permission/assign`, { companyId, moduleIds });
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -21,7 +24,7 @@ export const PermissionService = {
     // Deny access to a module
     async denyAccess(requestPayload) {
         try {
-            const response = await axios.post(`${API_URL}/deny-access`, requestPayload);
+            const response = await axios.post(`${API_URL}/api/admin/permission/deny-access`, requestPayload);
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {

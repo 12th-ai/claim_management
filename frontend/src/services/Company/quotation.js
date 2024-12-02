@@ -1,12 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/company/quotation'; // Updated API URL for Quotations
+
+const API_URL =
+    import.meta.env.VITE_API_URL;
 
 export const QuotationService = {
     // Fetch all quotations
     async fetchQuotations() {
         try {
-            const response = await axios.get(`${API_URL}`, { withCredentials: true });
+            const response = await axios.get(`${API_URL}/api/company/quotation`, { withCredentials: true });
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -20,7 +22,7 @@ export const QuotationService = {
     // Create a new quotation
     async createQuotation(quotationData) {
         try {
-            const response = await axios.post(`${API_URL}`, quotationData, { withCredentials: true });
+            const response = await axios.post(`${API_URL}/api/company/quotation`, quotationData, { withCredentials: true });
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -33,7 +35,7 @@ export const QuotationService = {
     // Fetch a single loss accessor by ID
     async fetchQuotationById(id) {
         try {
-            const response = await axios.get(`${API_URL}/${id}`, { withCredentials: true });
+            const response = await axios.get(`${API_URL}/api/company/quotation/${id}`, { withCredentials: true });
             return response;
         } catch (error) {
             throw new Error('Failed to fetch quotation by ID');

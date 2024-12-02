@@ -45,7 +45,7 @@
           <img
           :src="accessor.lossAccessorLogo 
             ? `http://localhost/Mua_Insurance/backend/uploads/${accessor.lossAccessorLogo}` 
-            : 'http://localhost/Mua_Insurance/backend/uploads/placeholder.jpg'"
+            : require('../../../assets/images/users/avatar-1.jpg')"
           alt="Loss Accessor Logo"
           style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;"
         />
@@ -164,7 +164,7 @@
 
       <!-- Contact Code -->
       <div class="mb-3">
-        <label for="contactCode" class="form-label">Contact Code</label>
+        <label for="contactCode" class="form-label">Contract Code</label>
         <input
           type="text"
           id="contactCode"

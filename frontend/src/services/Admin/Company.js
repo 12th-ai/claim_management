@@ -1,12 +1,12 @@
 import axios from 'axios';
-
-const API_URL = 'https://claim-management-backend.onrender.com/api/admin/company'; // Backend API URL for companies
+const API_URL =
+    import.meta.env.VITE_API_URL;
 
 export const CompanyService = {
     // Fetch all companies
     async fetchCompany() {
         try {
-            const response = await axios.get(`${API_URL}`);
+            const response = await axios.get(`${API_URL}/api/admin/company`);
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -20,7 +20,7 @@ export const CompanyService = {
     // Create a new company
     async createCompany(companyData) {
         try {
-            const response = await axios.post(`${API_URL}`, companyData);
+            const response = await axios.post(`${API_URL}/api/admin/company`, companyData);
             return response; // Success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -34,7 +34,7 @@ export const CompanyService = {
     // Fetch a single company by ID
     async fetchCompanyById(id) {
         try {
-            const response = await axios.get(`${API_URL}/${id}`);
+            const response = await axios.get(`${API_URL}/api/admin/company/${id}`);
             return response;
         } catch (error) {
             throw new Error('Failed to fetch company by ID');
@@ -45,7 +45,7 @@ export const CompanyService = {
     // Update a company
     async updateCompany(id, companyData) {
         try {
-            const response = await axios.put(`${API_URL}/${id}`, companyData);
+            const response = await axios.put(`${API_URL}/api/admin/company/${id}`, companyData);
             return response.data;
         } catch (error) {
             throw new Error('Failed to update company');
@@ -55,7 +55,7 @@ export const CompanyService = {
     // Delete a company
     async deleteCompany(id) {
         try {
-            const response = await axios.delete(`${API_URL}/${id}`);
+            const response = await axios.delete(`${API_URL}/api/admin/company/${id}`);
             return response.data;
         } catch (error) {
             throw new Error('Failed to delete company');

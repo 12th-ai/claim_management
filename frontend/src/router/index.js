@@ -28,7 +28,7 @@ const PageNotFound = () =>
 
 const router = createRouter({
     history: createWebHistory(
-        import.meta.env.BASE_URL),
+        import.meta.env.BASE_URL || "/"),
     routes: [
 
 
@@ -64,19 +64,19 @@ const router = createRouter({
                             path: "review-module",
                             name: "review-module",
                             component: () =>
-                                import ("@/views/Admin/permission/view_module.vue"),
+                                import ("@/views/Admin/permission/View_module.vue"),
                         },
                         {
                             path: "review-company",
                             name: "review-company",
                             component: () =>
-                                import ("@/views/Admin/permission/view_company.vue"),
+                                import ("@/views/Admin/permission/View_company.vue"),
                         },
                         {
                             path: "review-company/:id",
                             name: "review-company_detail",
                             component: () =>
-                                import ("@/views/Admin/permission/view_company_detail.vue"),
+                                import ("@/views/Admin/permission/View_company_detail.vue"),
                             props: true,
                         },
                     ],
@@ -138,7 +138,6 @@ const router = createRouter({
 
 
         {
-
 
             path: '/LossAccessor',
             component: LossAccessorLayout,

@@ -276,14 +276,6 @@ export default {
     };
   },
   computed: {
-    // filteredCompanies() {
-    //   return this.companies
-    //     .filter(company => company.companyName.toLowerCase().includes(this.searchName.toLowerCase()))
-    //     .filter(company => {
-    //       if (!this.searchDate) return true;
-    //       return new Date(company.createdAt).toLocaleDateString() === new Date(this.searchDate).toLocaleDateString();
-    //     });
-    // },
 
     filteredCompanies() {
   const searchTerm = this.searchName.toLowerCase();

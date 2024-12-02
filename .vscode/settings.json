@@ -9,6 +9,7 @@
     "managementorganization",
     "Pinia",
     "routersend",
-    "Topbar"
+    "Topbar",
+    "VITE"
   ]
 }

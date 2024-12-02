@@ -29,7 +29,7 @@
                 <img
                   v-if="user && user.profileImage"
                   class="rounded-circle header-profile-user"
-                  :src="`http://localhost/Mua_Insurance/backend/uploads/${user.profileImage}`"
+                :src="`${import.meta.env.VITE_IMAGE_URL}${user.profileImage}`"
                   alt="Header Avatar"
                 />
                 <img
