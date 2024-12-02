@@ -322,8 +322,7 @@ export default {
      console.error('Error fetching companies:', error);
      this.companies = [];
    }
- }
-
+ },
 
     setPagination() {
       const totalPages = Math.ceil(this.filteredCompanies.length / this.itemsPerPage);
