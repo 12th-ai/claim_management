@@ -54,25 +54,25 @@ app.use(express.urlencoded({ extended: true, limit: '100mb' })); // for URL-enco
 
 const corsOptions = {
     origin: (origin, callback) => {
-        // Allow all origins
-        callback(null, true);
+        callback(null, true); // Allow all origins
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
-    credentials: true, // Include cookies in requests
+    credentials: true, // Allow cookies
 };
 
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions)); // Handle preflight requests
 
-// Serve static files
 // Serve static files with CORS headers
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'), {
     setHeaders: (res, path) => {
         res.set('Access-Control-Allow-Origin', '*'); // Allow all origins to access static files
-        res.set('Access-Control-Allow-Methods', 'GET'); // Ensure GET method is allowed
+        res.set('Access-Control-Allow-Methods', 'GET'); // Allow only GET requests
+        res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
     }
 }));
+
 // Router usage
 app.use('/api/admin/auth', AdminAuth);
 app.use('/api/admin/module', Module);

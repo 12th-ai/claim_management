@@ -40,4 +40,15 @@ export const QuotationService = {
             throw new Error('Failed to fetch quotation by ID');
         }
     },
+    async fetchQuotationReport(id) {
+        try {
+            const response = await axios.get(`${API_URL}/api/LossAccessor/quotation/report/${id}`, {
+                withCredentials: true, // Enable sending cookies with the request
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching quotation report:', error);
+            throw error;
+        }
+    },
 };

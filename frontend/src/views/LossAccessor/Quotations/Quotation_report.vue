@@ -1,23 +1,42 @@
 <template>
   <div class="page">
-    <div v-if="data">
+    <div v-if="data" class="mb-4" style="margin-top:100px">
+
+
+
       <div class="card">
-        <img :src="companyLogo" alt="Company Logo" />
-        <h2>{{ company.companyName }}</h2>
-        <h2>{{ company.email }}</h2>
-        <h2>{{ company.phoneNumber }}</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="company-info">
+    <div class="logo-container">
+      <img :src="companyLogo" alt="Company Logo" class="company-logo" />
+    </div>
+    <div class="company-details">
+      <h2> <strong style="text-transform:capitalize">Name : </strong>{{ company.companyName }}</h2>
+      <h2><strong style="text-transform:capitalize">email : </strong>{{ company.email }}</h2>
+      <h2> <strong style="text-transform:capitalize">Phone number : </strong> {{ company.phoneNumber }}</h2>
+    </div>
+    </div>
+
+    <div class="accessor-info">
+    <div class="logo-container">
+      <img :src="lossAccessorLogo" alt="Accessor Logo" class="accessor-logo" />
+    </div>
+    <div class="accessor-details">
+      <h2> <strong style="text-transform:capitalize">Name : </strong>{{ accessor.lossAccessorName }}</h2>
+      <h2><strong style="text-transform:capitalize">email : </strong>{{ accessor.email }}</h2>
+      <h2><strong style="text-transform:capitalize">phone number : </strong>{{ accessor.phoneNumber }}</h2>
+
+    </div>
+  </div>
+  </div>
+        <div>
+       </div>
+       <div>
+         
 
 
-        <h1>loss accessor informaton</h1>
-        <img :src="lossAccessorLogo" alt="Company Logo" />
 
-
-        <h2>{{ accessor.lossAccessorName }}</h2>
-        <h2>{{ accessor.email }}</h2>
-        <h2>{{ accessor.phoneNumber }}</h2>
-        <h2>{{ accessor.address }}</h2>
-        <ul>
-          <div>
+            
     <h1>Claim Details</h1>
     <div v-if="claimData">
       <p><strong>Claim Number:</strong> {{ claimData.claimNumber }}</p>
@@ -35,37 +54,62 @@
       <p>Loading claim details...</p>
     </div>
   </div>
-          <li v-for="(detail, key) in claimDetails" :key="key">
-            <strong>{{ key }}:</strong> {{ detail }}
-          </li>
-        </ul>
-        <div v-if="supportingDocuments.length">
-  <h3>Supporting Documents</h3>
   <ul>
-    <li v-for="doc in supportingDocuments" :key="doc.filename">
+    <div class="details-container">
+  <div v-for="(detail, key) in claimDetails" :key="key" class="detail-card">
+    <div class="card-header">
+      <h3>{{ key }}</h3> <!-- Title (key) -->
+    </div>
+    <div class="card-body">
+      <p>{{ detail }}</p> <!-- Detail (value) -->
+    </div>
+  </div>
+</div>
+
+        </ul>
+
+<div v-if="supportingDocuments.length">
+  <h3>Supporting Documents</h3>
+  <div class="grid-container">
+    <div v-for="doc in supportingDocuments" :key="doc.filename" class="document-card">
       <!-- File link -->
-      <a :href="`http://localhost/Mua_Insurance/backend/uploads/${doc.filename}`" target="_blank">
+      <a :href="`http://localhost/Mua_Insurance/backend/uploads/${doc.filename}`" target="_blank" class="document-link">
         View Document
       </a>
       <!-- Description below the link -->
-      <p>{{ doc.description }}</p>
-    </li>
-  </ul>
+      <p class="document-description">{{ doc.description }}</p>
+    </div>
+  </div>
 </div>
 
 
-        <div v-if="supportingImages.length">
+<div v-if="supportingImages.length">
   <h3>Supporting Images</h3>
-  <ul>
-    <li v-for="img in supportingImages" :key="img.filename" class="supporting-image">
+  <div class="grid-containers">
+    <div v-for="img in supportingImages" :key="img.filename" class="image-card">
+      <!-- Image -->
       <img
         :src="`http://localhost/Mua_Insurance/backend/uploads/${img.filename}`"
         alt="Supporting Image"
+        class="image-card-img"
       />
-      <p>{{ img.description }}</p>
-    </li>
-  </ul>
+      <!-- Description below the image -->
+      <p class="image-card-description">{{ img.description }}</p>
+    </div>
+    <div v-for="img in supportingImages" :key="img.filename" class="image-card">
+      <!-- Image -->
+      <img
+        :src="`http://localhost/Mua_Insurance/backend/uploads/${img.filename}`"
+        alt="Supporting Image"
+        class="image-card-img"
+      />
+      <!-- Description below the image -->
+      <p class="image-card-description">{{ img.description }}</p>
+    </div>
+  </div>
 </div>
+
+
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   <div
     v-for="(item, index) in salvageItems"
@@ -105,7 +149,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { QuotationService } from "../../../services/LossAccessor/quotation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -141,7 +185,7 @@ export default {
         "Regulatory Compliance": this.data?.regulatoryCompliance,
       };
     },
-     salvageItems() {
+    salvageItems() {
       // Parse and structure the data
       const names = JSON.parse(this.data?.salvageItemNames || "[]");
       const unitPrices = JSON.parse(this.data?.salvageUnitPrices || "[]");
@@ -177,82 +221,72 @@ export default {
     },
   },
   methods: {
+   async exportPDF() {
+      const doc = new jsPDF();
+      
+      // Title and header
+      doc.setFontSize(22);
+      doc.text(this.company.name, 20, 20);
 
-    async exportPDF() {
-  const element = document.querySelector(".page");
-
-  // Ensure images are loaded
-  const images = document.querySelectorAll("img");
-  const loadImagePromises = Array.from(images).map((img) => {
-    return new Promise((resolve) => {
-      if (img.complete) {
-        resolve(); // Image is already loaded
-      } else {
-        img.onload = resolve; // Resolve once image is loaded
-        img.onerror = resolve; // Resolve if there's an error loading
+      // Add company logo
+      const logo = this.companyLogo;
+      if (logo) {
+        doc.addImage(logo, 'JPEG', 150, 10, 50, 20); // Adjust position and size as needed
       }
-    });
-  });
 
-  await Promise.all(loadImagePromises); // Wait for all images to be loaded
+      // Claim Information
+      doc.setFontSize(16);
+      doc.text("Claim Information", 20, 40);
+      doc.setFontSize(12);
+      doc.text(`Accident Description: ${this.claimData.accidentDescription}`, 20, 50);
+      doc.text(`Course of Accident: ${this.claimData.courseOfAccident}`, 20, 60);
+      // Add other claim details here...
 
-  const canvas = await html2canvas(element, {
-    scale: 2,
-    logging: true,
-    useCORS: true,
-    onclone: (document) => {
-        const images = document.querySelectorAll('img');
-        images.forEach((img) => {
-            // Make sure image source URLs are absolute
-            if (!img.src.startsWith('http')) {
-                img.src = `http://localhost/Mua_Insurance/backend/uploads/${img.src}`;
-            }
-        });
-    }
-});
+      // Salvage Items
+      doc.setFontSize(16);
+      doc.text("Salvage Items", 20, 80);
+      const startY = 90;
+      let currentY = startY;
 
+      // Table headers
+      doc.setFontSize(12);
+      doc.text("Name", 20, currentY);
+      doc.text("Unit Price", 80, currentY);
+      doc.text("Quantity", 140, currentY);
+      doc.text("Total Price", 180, currentY);
+      currentY += 10;
 
-  const pdf = new jsPDF("p", "mm", "a4");
-  const imgData = canvas.toDataURL("image/png");
-  const imgWidth = 190; // Fit to A4 width
-  const pageHeight = 297; // A4 page height
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
-  let heightLeft = imgHeight;
-  let position = 10;
+      // Table data
+      this.salvageItems.forEach(item => {
+        doc.text(item.name, 20, currentY);
+        doc.text(item.unitPrice.toString(), 80, currentY);
+        doc.text(item.quantity.toString(), 140, currentY);
+        doc.text(item.totalPrice.toString(), 180, currentY);
+        currentY += 10;
+      });
 
-  // Add the first page
-  pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-  heightLeft -= pageHeight;
+      // Save the PDF
+      doc.save("salvage_report.pdf");
+    },
 
-  // Add additional pages if content exceeds one page 
-  while (heightLeft > 0) {
-    position = heightLeft - imgHeight;
-    pdf.addPage();
-    pdf.addImage(imgData, "PNG", 10, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-  }
-
-  pdf.save("salvage_report.pdf");
-},
-    async fetchData() {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/api/LossAccessor/quotation/report/9", 
-        {
-          withCredentials: true // Enables sending cookies with the request
-        }
-      );
-      this.data = response.data;
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+async fetchData() {
+      try {
+        // const hashedId = this.$route.params.id; // Get the id from route params
+        // const id = atob(hashedId); // Decode the id if necessary
+        const id = this.$route.params.id;
+        const data = await QuotationService.fetchQuotationReport(id);
+        this.data = data; // Set the fetched data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
   },
-},
   mounted() {
-    this.fetchData();
+    this.fetchData(); // Fetch data when the component is mounted
   },
 };
 </script>
+
 
 <style scoped>
 .card {
@@ -269,5 +303,174 @@ export default {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width:1500px;
 }
+.card {
+width: 100%;
+  padding: 60px;
+
+  border-radius: 8px;
+  margin-left:150px
+  /* background-color: #f9f9f9; */
+  /* border:2px solid red; */
+}
+
+
+
+/* .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+} */
+
+.company-logo,
+.accessor-logo {
+  width: 80px;
+  height: 80px;
+  border-radius:10%;
+  object-fit: cover;
+}
+
+h2 {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+h1 {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #555;
+}
+.details-container {
+  display: flex;
+  flex-direction: column; /* Stack the cards vertically */
+  gap: 20px; /* Space between the cards */
+  align-items: center; /* Center the cards horizontally */
+}
+
+.detail-card {
+  width: 100%; /* Make the cards full-width */
+margin-right:80px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.3s ease-in-out;
+}
+
+.detail-card:hover {
+  transform: translateY(-5px); /* Elevate card on hover */
+}
+
+.card-header h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-body p {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .detail-card {
+    width: 90%; /* Adjust width on smaller screens */
+  }
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid columns */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+}
+
+.document-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.document-card:hover {
+  transform: translateY(-5px); /* Elevate card on hover */
+}
+
+.document-link {
+  display: block;
+  font-size: 16px;
+  color: #0066cc;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+
+.document-link:hover {
+  text-decoration: underline;
+}
+
+.document-description {
+  font-size: 14px;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Stack cards on smaller screens */
+  }
+}
+
+.grid-containers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid columns */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+}
+
+.image-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures images are contained within the card */
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.image-card:hover {
+  transform: translateY(-5px); /* Elevate card on hover */
+}
+
+.image-card img {
+  width: 100%; /* Ensures image fills the full width of the card */
+  height: 80%; /* Takes up 80% of the card's height */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  border:2px solid red;
+  
+}
+
+.image-card-description {
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Stack cards on smaller screens */
+  }
+}
+
+
+
 </style>
