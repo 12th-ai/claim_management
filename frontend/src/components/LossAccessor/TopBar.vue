@@ -26,10 +26,11 @@
             >
               <span class="d-flex align-items-center">
                 <!-- Check if user profile image exists, else show default image -->
-                <img
+               <!-- Profile Image -->
+               <img
                   v-if="user && user.profileImage"
                   class="rounded-circle header-profile-user"
-                    :src="`${import.meta.env.VITE_IMAGE_URL}${user.profileImage}`"
+                  :src="profileImageUrl"
                   alt="Header Avatar"
                 />
                 <img
@@ -86,14 +87,19 @@ export default {
   },
   data() {
     return {
-      errorMessage: null, // To display error messages
-      currentHour: ref(new Date().getHours()),
-      currentMinute: ref(new Date().getMinutes()),
-      currentSecond: ref(new Date().getSeconds()),
+      baseUrl: import.meta.env.VITE_IMAGE_URL, // Store base URL here
+      errorMessage: null,
+      currentHour: new Date().getHours(),
+      currentMinute: new Date().getMinutes(),
+      currentSecond: new Date().getSeconds(),
     };
   },
+  computed: {
+    profileImageUrl() {
+      return `${this.baseUrl}${this.user?.profileImage || ''}`;
+    },
+  },
   mounted() {
-    // Update the time every second
     setInterval(() => {
       const now = new Date();
       this.currentHour = now.getHours();
@@ -101,15 +107,13 @@ export default {
       this.currentSecond = now.getSeconds();
     }, 1000); // Update every second
   },
-
   methods: {
     async logout() {
       try {
-        await authService.logout(); // Call the logout service
-        // this.$router.push("/auth-logout"); // Redirect to logout page
+        await authService.logout();
       } catch (error) {
-        console.error("Logout failed:", error);
-        this.errorMessage = "Logout failed. Please try again.";
+        console.error('Logout failed:', error);
+        this.errorMessage = 'Logout failed. Please try again.';
       }
     },
   },

@@ -3,18 +3,16 @@
     <div class="layout-width">
       <div class="navbar-header">
         <div class="d-flex">
-          <!-- Welcome message with fallback for user.username -->
           <h1 style="font-size:20px; text-transform:capitalize">
             Welcome Back {{ user?.username || 'Guest' }}
           </h1>
-       
         </div>
 
         <div class="d-flex align-items-center">
           <div class="clock">
-      <i class="mdi mdi-clock-outline fs-24 me-2"></i> <!-- Clock icon -->
-      <p>{{ currentHour }} : {{ currentMinute }} : {{ currentSecond }}</p>
-    </div>
+            <i class="mdi mdi-clock-outline fs-24 me-2"></i> <!-- Clock icon -->
+            <p>{{ currentHour }} : {{ currentMinute }} : {{ currentSecond }}</p>
+          </div>
           <div class="dropdown ms-sm-3 header-item topbar-user">
             <button
               type="button"
@@ -25,11 +23,11 @@
               aria-expanded="false"
             >
               <span class="d-flex align-items-center">
-                <!-- Check if user profile image exists, else show default image -->
+                <!-- Profile Image -->
                 <img
                   v-if="user && user.profileImage"
                   class="rounded-circle header-profile-user"
-                :src="`${import.meta.env.VITE_IMAGE_URL}${user.profileImage}`"
+                  :src="profileImageUrl"
                   alt="Header Avatar"
                 />
                 <img
@@ -49,17 +47,11 @@
               </span>
             </button>
             <div class="dropdown-menu dropdown-menu-end">
-              <!-- Welcome message in dropdown with fallback -->
-              <h6 class="dropdown-header">
-                Welcome {{ user?.username || 'Guest' }}!
-              </h6>
-              <!-- Profile link -->
+              <h6 class="dropdown-header">Welcome {{ user?.username || 'Guest' }}!</h6>
               <router-link class="dropdown-item" to="comingsoon">
                 <i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
                 <span class="align-middle">Profile</span>
               </router-link>
-
-              <!-- Logout button -->
               <button class="dropdown-item" @click="logout">
                 <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
                 <span class="align-middle" data-key="t-logout">Logout</span>
@@ -69,13 +61,12 @@
         </div>
       </div>
     </div>
-  
   </header>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import { authService } from "../../services/Admin/Auth";
+import { ref } from 'vue';
+import { authService } from '../../services/Admin/Auth';
 
 export default {
   props: {
@@ -86,14 +77,19 @@ export default {
   },
   data() {
     return {
-      errorMessage: null, // To display error messages
-      currentHour: ref(new Date().getHours()),
-      currentMinute: ref(new Date().getMinutes()),
-      currentSecond: ref(new Date().getSeconds()),
+      baseUrl: import.meta.env.VITE_IMAGE_URL, // Store base URL here
+      errorMessage: null,
+      currentHour: new Date().getHours(),
+      currentMinute: new Date().getMinutes(),
+      currentSecond: new Date().getSeconds(),
     };
   },
+  computed: {
+    profileImageUrl() {
+      return `${this.baseUrl}${this.user?.profileImage || ''}`;
+    },
+  },
   mounted() {
-    // Update the time every second
     setInterval(() => {
       const now = new Date();
       this.currentHour = now.getHours();
@@ -101,22 +97,20 @@ export default {
       this.currentSecond = now.getSeconds();
     }, 1000); // Update every second
   },
-
   methods: {
     async logout() {
       try {
-        await authService.logout(); // Call the logout service
-        // this.$router.push("/auth-logout"); // Redirect to logout page
+        await authService.logout();
       } catch (error) {
-        console.error("Logout failed:", error);
-        this.errorMessage = "Logout failed. Please try again.";
+        console.error('Logout failed:', error);
+        this.errorMessage = 'Logout failed. Please try again.';
       }
     },
   },
 };
 </script>
-<style scoped>
 
+<style scoped>
 .clock {
   display: flex;
   align-items: center;
@@ -129,6 +123,6 @@ export default {
 }
 
 .clock i {
-  color: #1c3b8c; /* Green color for the clock icon */
+  color: #1c3b8c;
 }
 </style>

@@ -30,177 +30,142 @@ const router = createRouter({
     history: createWebHistory(
         import.meta.env.BASE_URL || "/"),
     routes: [
-
-
-        // admin dahboard declaration and use start `
+        // admin dashboard declaration
         {
             path: "/admin",
             component: AdminLayout,
-              children: [{
+            children: [{
                     path: "",
-                    redirect: { name: "login" }, // Redirect to login as default
-                },
-                     {
-                    path: "/",
-                    component: AuthLayout,
-                    children: [{
-                            path: "",
-                            name: "login",
-                            component: () =>
-                                import ("@/views/Admin/auth/Login.vue"),
-                        },
-                        {
-                            path: "register",
-                            name: "register",
-                            component: () =>
-                                import ("@/views/Admin/auth/Register.vue"),
-                        },
-                    ],
+                    name: "login",
+                    component: () =>
+                        import ("@/views/Admin/auth/Login.vue"),
                 },
                 {
-                    path: "dashboard",
-                    component: ProtectedLayout,
-                    children: [{
-                            path: "review-module",
-                            name: "review-module",
-                            component: () =>
-                                import ("@/views/Admin/permission/View_module.vue"),
-                        },
-                        {
-                            path: "review-company",
-                            name: "review-company",
-                            component: () =>
-                                import ("@/views/Admin/permission/View_company.vue"),
-                        },
-                        {
-                            path: "review-company/:id",
-                            name: "review-company_detail",
-                            component: () =>
-                                import ("@/views/Admin/permission/View_company_detail.vue"),
-                            props: true,
-                        },
-                    ],
+                    path: "register",
+                    name: "register",
+                    component: () =>
+                        import ("@/views/Admin/auth/Register.vue"),
+                },
+            ],
+        },
+        {
+            path: "/admin/dashboard",
+            component: ProtectedLayout,
+            children: [{
+                    path: "review-module",
+                    name: "review-module",
+                    component: () =>
+                        import ("@/views/Admin/permission/View_module.vue"),
+                },
+                {
+                    path: "review-company",
+                    name: "review-company",
+                    component: () =>
+                        import ("@/views/Admin/permission/View_company.vue"),
+                },
+                {
+                    path: "review-company/:id",
+                    name: "review-company_detail",
+                    component: () =>
+                        import ("@/views/Admin/permission/View_company_detail.vue"),
+                    props: true,
                 },
             ],
         },
 
+        // insurance_company routes
         {
-
-
-            path: '/insurance_company',
+            path: "/insurance_company",
             component: Insurance_Layout,
-            children: [
-
-                // Auth layout as a child of AdminLayout
-                {
-                    path: "/insurance_company",
+            children: [{
+                    path: "",
                     component: Insurance_Auth,
                     children: [{
                         name: "insurancelogin",
                         path: "",
                         component: () =>
                             import ("@/views/insurance_company/auth/Login.vue"),
-                    }],
+                    }, ],
                 },
-
                 {
-                    path: "/insurance_company/dashboard",
+                    path: "dashboard",
                     component: Protected_insurance,
                     children: [{
                             path: "review-accessor",
                             name: "review-accessor",
                             component: () =>
-                                import ("@/views/insurance_company/loss_accessor/Review_Accessor.vue"),
+                                import (
+                                    "@/views/insurance_company/loss_accessor/Review_Accessor.vue"
+                                ),
                         },
-
                         {
                             path: "quotations",
                             name: "review-quotations",
                             component: () =>
-                                import ("@/views/insurance_company/Quotations/Review_quotation.vue"),
+                                import (
+                                    "@/views/insurance_company/Quotations/Review_quotation.vue"
+                                ),
                         },
                         {
                             path: "quotations/:id",
                             name: "review-quotation_detail",
                             component: () =>
-                                import ("@/views/insurance_company/Quotations/View_Quotation_detail.vue"),
+                                import (
+                                    "@/views/insurance_company/Quotations/View_Quotation_detail.vue"
+                                ),
                         },
-
-
-
                     ],
-                }
-
+                },
             ],
-
         },
 
-
-
+        // LossAccessor routes
         {
-
-            path: '/LossAccessor',
+            path: "/LossAccessor",
             component: LossAccessorLayout,
-            children: [
-
-                // Auth layout as a child of AdminLayout
-                {
-                    path: "/LossAccessor",
-                    component: Insurance_Auth,
+            children: [{
+                    path: "",
+                    component: LossAccessor_Auth,
                     children: [{
                         name: "LossAccessorLogin",
                         path: "",
                         component: () =>
                             import ("@/views/LossAccessor/auth/Login.vue"),
-                    }],
+                    }, ],
                 },
-
                 {
-                    path: "/LossAccessor/dashboard",
+                    path: "dashboard",
                     component: Protected_LossAccessor,
-                    children: [
-
-                        {
+                    children: [{
                             path: "quotations",
                             name: "review-accessor-quotations",
                             component: () =>
-                                import ("@/views/LossAccessor/Quotations/Review_quotation.vue"),
+                                import (
+                                    "@/views/LossAccessor/Quotations/Review_quotation.vue"
+                                ),
                         },
                         {
                             path: "quotations/:id",
                             name: "review-Accessor-quotation_detail",
                             component: () =>
-                                import ("@/views/LossAccessor/Quotations/View_Quotation_detail.vue"),
+                                import (
+                                    "@/views/LossAccessor/Quotations/View_Quotation_detail.vue"
+                                ),
                         },
-
                         {
                             path: "quotations/report/:id",
                             name: "review-Accessor-report",
                             component: () =>
-                                import ("@/views/LossAccessor/Quotations/Quotation_report.vue"),
+                                import (
+                                    "@/views/LossAccessor/Quotations/Quotation_report.vue"
+                                ),
                         },
                     ],
-                }
-
+                },
             ],
-
         },
 
-
-
-
-
-
-
-
-
-
-        // insurance_company router declration 
-
-
-
-
-
+        // Catch-all route for 404
         { path: "/:catchAll(.*)", component: PageNotFound },
     ],
 });

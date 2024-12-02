@@ -22,7 +22,7 @@ export const authService = {
         }
     },
     LoginUser: async(userData) => {
-        z
+
         try {
             const response = await axios.post(
                 `${API_URL}/api/admin/auth/login`,
