@@ -191,20 +191,31 @@
                     </div>
 
                     <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title mb-3">Location</h5>
-                    <!-- In the template -->
-                    <div class="me-2">
-  <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>
-  {{ getFirstBranchAddress(company.branches) || 'Location unavailable' }}
-</div>
+  <div class="card-body">
+    <h5 class="card-title mb-3">Location</h5>
+    
+    <!-- Display the address of the first branch -->
+    <div class="me-2">
+      <i class="ri-map-pin-user-line me-1 text-white text-opacity-75 fs-16 align-middle"></i>
+      {{ getFirstBranchAddress(company.branches) || 'Location unavailable' }}
+    </div>
 
-<!-- If you want to show the map link as a clickable URL -->
-<div v-if="getFirstBranchMapLink(company.branches)">
-  <a :href="getFirstBranchMapLink(company.branches)" target="_blank" class="text-muted">
-    View on Map
-  </a>
-</div>
+    <!-- Display all branches -->
+    <div v-if="company.branches && company.branches.length > 0">
+      <div v-for="(branch, index) in company.branches" :key="index">
+        <!-- Branch address -->
+        <p>{{ branch.address }}</p>
+        
+        <!-- Link to the branch's map location -->
+        <a :href="branch.map_link" target="_blank" rel="noopener noreferrer">View Map</a>
+      </div>
+    </div>
+    <!-- If no branches available -->
+    <div v-else>
+      <p>No branches available.</p>
+    </div>
+  </div>
+
 
                       </div>
                     </div>
@@ -216,7 +227,7 @@
         </div>
       </div>
     </div>
-  </div>
+ 
 
 
   <div class="modal fade" id="moduleModal" tabindex="-1" aria-labelledby="moduleModalLabel" aria-hidden="true">
@@ -399,11 +410,14 @@ export default {
 
     // Check if the branches field needs parsing
     try {
-      companyData.branches = JSON.parse(companyData.branches || '[]');
-    } catch (error) {
-      console.error('Error parsing branches:', error);
-      companyData.branches = [];
-    }
+  // Only parse if it's a string
+  if (typeof companyData.branches === 'string') {
+    companyData.branches = JSON.parse(companyData.branches || '[]');
+  }
+} catch (error) {
+  console.error('Error parsing branches:', error);
+  companyData.branches = [];
+}
 
     // Check if the socialMedia field needs parsing
     if (typeof companyData.socialMedia === 'string') {
