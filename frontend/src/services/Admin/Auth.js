@@ -1,36 +1,33 @@
 import axios from 'axios';
 
-
+// Base API URL from environment variables
 const API_URL =
     import.meta.env.VITE_API_URL;
 
-
 export const authService = {
+    // Register user
     registerUser: async(userData) => {
         try {
+            // Append the endpoint to the base URL
             const response = await axios.post(`${API_URL}/api/admin/auth/register`, userData);
             return response.data; // Success response
         } catch (error) {
-            // Check if there's a specific error message
+            // Handle errors and display specific error messages
             if (error.response && error.response.data) {
-                // If the error comes with a specific message from the backend
                 throw new Error(error.response.data.message || 'An error occurred during registration');
             } else {
-                // If there's no error message, return a general error
                 throw new Error('An error occurred during registration');
             }
         }
     },
-    LoginUser: async(userData) => {
 
+    // Login user
+    LoginUser: async(userData) => {
         try {
-            const response = await axios.post(
-                `${API_URL}/api/admin/auth/login`,
-                userData, // Request body
-                {
-                    withCredentials: true, // Ensures cookies are sent
-                }
-            );
+            // Append the endpoint to the base URL
+            const response = await axios.post(`${API_URL}/api/admin/auth/login`, userData, {
+                withCredentials: true, // Ensures cookies are sent with the request
+            });
             return response.data; // Return success response
         } catch (error) {
             if (error.response && error.response.data) {
@@ -41,6 +38,7 @@ export const authService = {
         }
     },
 
+    // Get user profile
     getProfile: async() => {
         try {
             // Send request with credentials (cookies) automatically handled by Axios
@@ -56,6 +54,7 @@ export const authService = {
         }
     },
 
+    // Logout user
     logout: async() => {
         try {
             const response = await axios.post(
@@ -72,5 +71,4 @@ export const authService = {
             throw error; // Propagate error to the calling function
         }
     },
-
 };
