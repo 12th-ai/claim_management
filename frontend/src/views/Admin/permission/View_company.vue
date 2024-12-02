@@ -304,25 +304,25 @@ export default {
     hashId(id) {
     return btoa(id); // Encodes the ID as Base64
   },
-    async fetchCompanies() {
-      try {
-        const response = await CompanyService.fetchCompany();
-        if (Array.isArray(response.data)) {
-          this.companies = response.data.map(company => ({
-            ...company,
-            branches: company.branches ? JSON.parse(company.branches) : [],
-            socialMedia: company.socialMedia ? JSON.parse(company.socialMedia) : [],
-          }));
-        } else {
-          console.error("Unexpected response format:", response);
-          this.companies = [];
-        }
-        this.setPagination();
-      } catch (error) {
-        console.error('Error fetching companies:', error);
-        this.companies = [];
-      }
-    },
+  async fetchCompanies() {
+   try {
+     const response = await CompanyService.fetchCompany();
+     if (Array.isArray(response.data)) {
+       this.companies = response.data.map(company => ({
+         ...company,
+         branches: company.branches ? company.branches : [],
+         socialMedia: company.socialMedia ? company.socialMedia : [],
+       }));
+     } else {
+       console.error("Unexpected response format:", response);
+       this.companies = [];
+     }
+     this.setPagination();
+   } catch (error) {
+     console.error('Error fetching companies:', error);
+     this.companies = [];
+   }
+ },
 
     setPagination() {
       const totalPages = Math.ceil(this.filteredCompanies.length / this.itemsPerPage);

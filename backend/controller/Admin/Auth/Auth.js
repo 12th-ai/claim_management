@@ -80,7 +80,7 @@ const Login = async(req, res) => {
         res.cookie('token', token, {
             httpOnly: true, // Makes sure the cookie is not accessible from JavaScript
             secure: process.env.NODE_ENV === 'production', // If in production, use HTTPS
-            sameSite: 'Strict', // Adjust if needed
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Use 'None' in production (HTTPS), 'Lax' for local development (HTTP)
             maxAge: 3600000, // Token expiry time (1 hour)
         });
         res.status(200).json({

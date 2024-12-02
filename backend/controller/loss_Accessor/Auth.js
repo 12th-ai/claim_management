@@ -42,12 +42,11 @@ const Login = async(req, res) => {
 
         await Accessor.update({ tokens }, { where: { id: accessor.id } });
 
-        // Set cookie
         res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'Strict',
-            maxAge: 3600000, // 1 hour
+            httpOnly: true, // Makes sure the cookie is not accessible from JavaScript
+            secure: process.env.NODE_ENV === 'production', // If in production, use HTTPS
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax', // Use 'None' in production (HTTPS), 'Lax' for local development (HTTP)
+            maxAge: 3600000, // Token expiry time (1 hour)
         });
 
         // Respond with success

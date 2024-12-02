@@ -63,7 +63,7 @@
 
                     <div class="mt-5 text-center">
                       <p class="mb-0">
-                        Don't have an account? <router-link to="/admin/register" class="fw-semibold text-primary text-decoration-underline"> Signup</router-link>
+                        Don't have an account? <router-link to="/register" class="fw-semibold text-primary text-decoration-underline"> Signup</router-link>
                       </p>
                     </div>
                   </div>

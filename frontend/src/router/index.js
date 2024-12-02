@@ -4,11 +4,11 @@ import { ref } from "vue";
 import AdminLayout from "../layout/Admin/AdminLayout.vue";
 import Insurance_Layout from "../layout/Insurance_company/Insurance_Layout.vue";
 import LossAccessorLayout from "../layout/LossAccessor/LossAccessorLayout.vue";
+import LandingLayout from "../layout/Landing/LandingLayout.vue";
 
 
 // Lazy-load layouts and pages
-const AuthLayout = () =>
-    import ("../layout/Admin/AuthLayout.vue");
+
 const ProtectedLayout = () =>
     import ("../layout/Admin/ProtectedLayout.vue");
 
@@ -30,9 +30,9 @@ const router = createRouter({
     history: createWebHistory(
         import.meta.env.BASE_URL || "/"),
     routes: [
-        // admin dashboard declaration
+
         {
-            path: "/admin",
+            path: "/",
             component: AdminLayout,
             children: [{
                     path: "",

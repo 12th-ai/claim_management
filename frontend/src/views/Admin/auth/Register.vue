@@ -82,7 +82,7 @@
 
                     <div class="mt-5 text-center">
                       <p class="mb-0">
-                        Already have an account ? <router-link to="/admin" class="fw-semibold text-primary text-decoration-underline"> Signin</router-link>
+                        Already have an account ? <router-link to="/" class="fw-semibold text-primary text-decoration-underline"> Signin</router-link>
                       </p>
                     </div>
                   </div>
