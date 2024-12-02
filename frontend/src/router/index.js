@@ -36,12 +36,12 @@ const router = createRouter({
         {
             path: "/admin",
             component: AdminLayout,
-            children: [{
+              children: [{
                     path: "",
                     redirect: { name: "login" }, // Redirect to login as default
                 },
-                {
-                    path: "",
+                     {
+                    path: "/",
                     component: AuthLayout,
                     children: [{
                             path: "",
