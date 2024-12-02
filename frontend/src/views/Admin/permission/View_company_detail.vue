@@ -391,34 +391,42 @@ export default {
       }
     },
 
-    // Fetch company data by ID
     async fetchCompanyById(id) {
+  try {
+    const response = await CompanyService.fetchCompanyById(id);
+    // console.log(response.data); // Log the fetched data
+    const companyData = response.data;
+
+    // Check if the branches field needs parsing
+    try {
+      companyData.branches = JSON.parse(companyData.branches || '[]');
+    } catch (error) {
+      console.error('Error parsing branches:', error);
+      companyData.branches = [];
+    }
+
+    // Check if the socialMedia field needs parsing
+    if (typeof companyData.socialMedia === 'string') {
       try {
-        const response = await CompanyService.fetchCompanyById(id);
-        // console.log(response.data); // Log the fetched data
-        const companyData = response.data;
-
-        try {
-          companyData.branches = JSON.parse(companyData.branches || '[]');
-        } catch (error) {
-          console.error('Error parsing branches:', error);
-          companyData.branches = [];
-        }
-
-        try {
-          companyData.socialMedia = JSON.parse(companyData.socialMedia || '[]');
-        } catch (error) {
-          console.error('Error parsing social media:', error);
-          companyData.socialMedia = [];
-        }
-
-        this.company = companyData;
+        companyData.socialMedia = JSON.parse(companyData.socialMedia || '[]');
       } catch (error) {
-        console.error('Error fetching company data:', error);
-      } finally {
-        this.isLoading = false;
+        console.error('Error parsing social media:', error);
+        companyData.socialMedia = [];
       }
-    },
+    } else if (typeof companyData.socialMedia === 'object' && companyData.socialMedia !== null) {
+      // If it's already an object, ensure it's in the correct format (array or empty array)
+      companyData.socialMedia = Array.isArray(companyData.socialMedia) ? companyData.socialMedia : [];
+    } else {
+      companyData.socialMedia = [];
+    }
+
+    this.company = companyData;
+  } catch (error) {
+    console.error('Error fetching company data:', error);
+  } finally {
+    this.isLoading = false;
+  }
+},
 
  // Get the address of the first branch (if exists)
 getFirstBranchAddress(branches) {
