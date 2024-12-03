@@ -38,9 +38,9 @@ export default {
   data() {
     return {
       links: [
-        { name: 'Dashboard', icon: 'ri-home-2-line', path: '/admin/dashboard', end: true },
-        { name: 'System Module', icon: 'ri-apps-2-line', path: '/admin/dashboard/review-module' },
-        { name: "Review Company", icon: "ri-star-line", path: "/admin/dashboard/review-company"}
+        { name: 'Dashboard', icon: 'ri-home-2-line', path: '/dashboard', end: true },
+        { name: 'System Module', icon: 'ri-apps-2-line', path: '/dashboard/review-module' },
+        { name: "Review Company", icon: "ri-star-line", path: "/dashboard/review-company"}
       ]
     };
   },

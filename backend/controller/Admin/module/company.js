@@ -3,20 +3,25 @@ const Permission = require("../../../models/Admin/Permission");
 const Module = require("../../../models/Admin/Module");
 const bcrypt = require('bcryptjs');
 
-// Create a new company with logo
 const createCompany = async(req, res) => {
-
     const { companyName, email, phoneNumber, password, socialMedia, branches } = req.body;
+    const companyLogo = req.file ? req.file.filename : null;
 
-    // Parse socialMedia and branches from JSON if necessary
+    // Log the received data for debugging
+    console.log("Received data:", {
+        companyName,
+        email,
+        phoneNumber,
+        password,
+        socialMedia,
+        branches,
+        companyLogo
+    });
+
     const parsedSocialMedia = socialMedia ? JSON.parse(socialMedia) : [];
     const parsedBranches = branches ? JSON.parse(branches) : [];
-    // Get the logo file path from the request (multer will add the file path)
-    const companyLogo = req.file ? req.file.filename : null;
+
     try {
-
-
-        // Check if company already exists
         const existingCompany = await Company.findOne({ where: { companyName } });
 
         if (existingCompany) {
@@ -25,7 +30,6 @@ const createCompany = async(req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create the new company record
         await Company.create({
             companyName,
             email,
@@ -42,6 +46,7 @@ const createCompany = async(req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 // Get all companies
 const getCompanies = async(req, res) => {

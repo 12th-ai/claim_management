@@ -1,5 +1,5 @@
 <template>
-<div class="class" style="background-color: #eaedf7;height:100vh">
+<div class="class" style="background-color: #eaedf7;">
    <router-view></router-view>
    </div>
 </template>

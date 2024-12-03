@@ -250,13 +250,23 @@
       <h5 class="fs-15 text-muted">Time Remaining</h5>
     </div>
 
-    <!-- Buttons -->
-    <button class="btn btn-secondary mb-3" @click="goBack">
-      <i class="ri-arrow-left-line align-middle me-1"></i> Go Back
-    </button>
+   
   </div>
 </div>
     </div>
+     <!-- Buttons -->
+ <button class="btn btn-secondary mb-3" @click="goBack">
+      <i class="ri-arrow-left-line align-middle me-1"></i> Go Back
+    </button>
+    <button
+  
+  class="btn btn-primary"
+  style="margin-top: -12px; margin-left: 20px;margin-right: 20px"
+  @click="navigateToReport"
+>
+view quotation report
+</button>
+
 
 
 
@@ -330,6 +340,12 @@ export default {
   },
   },
   methods: {
+
+    navigateToReport() {
+      const quotationId = this.quotation.id; // Assuming 'id' is the quotation ID
+      const encodedId = btoa(quotationId); // Encoding the ID for URL
+      this.$router.push({ name: 'review-Company-report', params: { id: encodedId } });
+    },  
     goBack() {
     this.$router.go(-1); // Navigate to the previous page
   },

@@ -33,8 +33,8 @@
           <th scope="col">Company Name</th>
           <th scope="col">Email</th>
           <th scope="col">Phone Number</th>
-          <th scope="col">Social media</th>
-          <th scope="col">Branches</th>
+          <th scope="col"> Number of social media</th>
+          <th scope="col"> Number of branches</th>
           <th scope="col">Joining Date</th>
 
           <th scope="col">Action</th>
@@ -46,7 +46,7 @@
           <td>{{ company.companyName }}</td>
           <td>{{ company.email }}</td>
           <td>{{ company.phoneNumber }}</td>
-        
+
           <td>
   {{ company.socialMedia && company.socialMedia.length > 0 ? company.socialMedia.length + ' Social Media Used' : 'No Social Media Used' }}
 </td>
@@ -54,6 +54,9 @@
 <td>
   {{ company.branches && company.branches.length > 0 ? company.branches.length + ' Branches Used' : 'No Branches Used' }}
 </td>
+
+
+
 <td>{{ new Date(company.createdAt).toLocaleDateString('en-GB').replace(/\//g, '-') }}</td>
 
  <td style="display:flex">
@@ -308,11 +311,14 @@ export default {
    try {
      const response = await CompanyService.fetchCompany();
      if (Array.isArray(response.data)) {
-       this.companies = response.data.map(company => ({
-         ...company,
-         branches: company.branches ? company.branches : [],
-         socialMedia: company.socialMedia ? company.socialMedia : [],
-       }));
+       this.companies = response.data.map(company => {
+         return {
+           ...company,
+           // Parse stringified arrays into actual arrays
+           branches: company.branches ? JSON.parse(company.branches) : [],
+           socialMedia: company.socialMedia ? JSON.parse(company.socialMedia) : [],
+         };
+       });
      } else {
        console.error("Unexpected response format:", response);
        this.companies = [];
@@ -322,7 +328,8 @@ export default {
      console.error('Error fetching companies:', error);
      this.companies = [];
    }
- },
+},
+
 
     setPagination() {
       const totalPages = Math.ceil(this.filteredCompanies.length / this.itemsPerPage);
@@ -350,40 +357,43 @@ export default {
     },
 
     showModal(action, company = null) {
-      this.resetForm(); // Reset form before opening modal
+  this.resetForm(); // Reset form before opening modal
 
-      if (action === 'update' && company) {
-        this.selectedCompanyId = company.id; // Set the company ID
-        this.isUpdating = true; // Flag for updating
-        this.formData = {
-          companyName: company.companyName || '',
-          email: company.email || '',
-          phoneNumber: company.phoneNumber || '',
-          password: company.password || '',
-          branches: company.branches && company.branches.length > 0 ? company.branches : [{ address: '', map_link: '' }],
-          socialMedia: company.socialMedia && company.socialMedia.length > 0 ? company.socialMedia : [{ name: '', url: '' }],
-          companyLogo: company.companyLogo || null,
-        };
-        this.previewImage = null; // Clear preview image to prioritize companyLogo
-      } else {
-        this.selectedCompanyId = null; // Reset ID for new creation
-        this.isUpdating = false;
-        this.previewImage = null;
-        this.formData = { // Reset for new creation
-          companyName: '',
-          email: '',
-          phoneNumber: '',
-          website: '',
-          branches: [{ address: '', map_link: '' }],
-          socialMedia: [{ name: '', url: '' }],
-          companyLogo: null,
-        };
-      }
+  if (action === 'update' && company) {
+    this.selectedCompanyId = company.id; // Set the company ID
+    this.isUpdating = true; // Flag for updating
+    
+    // Set formData with existing company data
+    this.formData = {
+      companyName: company.companyName || '',
+      email: company.email || '',
+      phoneNumber: company.phoneNumber || '',
+      password: '',  // Don't set password while updating (security concern)
+      branches: company.branches ? (typeof company.branches === 'string' ? JSON.parse(company.branches) : company.branches) : [{ address: '', map_link: '' }],
+      socialMedia: company.socialMedia ? (typeof company.socialMedia === 'string' ? JSON.parse(company.socialMedia) : company.socialMedia) : [{ name: '', url: '' }],
+      companyLogo: company.companyLogo || null, // If company logo exists, set it
+    };
 
-      const modal = new bootstrap.Modal(document.getElementById('companyModal'), { backdrop: 'static' });
-      modal.show();
-    },
+    this.previewImage = null; // Clear preview image to prioritize companyLogo
+  } else {
+    this.selectedCompanyId = null; // Reset ID for new creation
+    this.isUpdating = false;
+    this.previewImage = null;
+    this.formData = { // Reset for new creation
+      companyName: '',
+      email: '',
+      phoneNumber: '',
+      website: '',
+      branches: [{ address: '', map_link: '' }],
+      socialMedia: [{ name: '', url: '' }],
+      companyLogo: null,
+    };
+  }
 
+  const modal = new bootstrap.Modal(document.getElementById('companyModal'), { backdrop: 'static' });
+  modal.show();
+}
+,
     resetForm() {
       this.formData = {
         companyName: '',

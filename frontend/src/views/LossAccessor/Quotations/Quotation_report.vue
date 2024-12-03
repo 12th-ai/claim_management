@@ -109,32 +109,35 @@
   </div>
 </div>
 
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  <div
-    v-for="(item, index) in salvageItems"
-    :key="index"
-    class="p-4 border rounded shadow"
-  >
-    <!-- Salvage Image -->
-    <img
-      :src="`http://localhost/Mua_Insurance/backend/uploads/${item.image}`"
-      alt="Salvage Image"
-      class="w-full h-32 object-cover mb-4"
-    />
+<div class="grid-containers" >
+  <div v-for="(item, index) in salvageItems" :key="index" class="cards" >
+    <!-- Check if item.image exists, if not show fallback text -->
+    <div class="image-container">
+      <img
+        v-if="item.image && item.image !== ''"
+        :src="`http://localhost/Mua_Insurance/backend/uploads/${item.image}`"
+        alt="Salvage Image"
+        class="card-image"
+      />
+      <p v-else class="no-image">No Salvage Image</p>
+    </div>
 
     <!-- Salvage Item Details -->
-    <h3 class="font-bold text-lg">{{ item.name }}</h3>
-    <p>Unit Price: {{ item.unitPrice }}</p>
-    <p>Quantity: {{ item.quantity }}</p>
-    <p class="font-bold">Total Price: {{ item.totalPrice }}</p>
-    <p>Action: {{ item.action }}</p>
+    <h3 class="card-title">{{ item.name }}</h3>
+    <p class="card-detail">Unit Price: ${{ item.unitPrice }}</p>
+    <p class="card-detail">Quantity: {{ item.quantity }}</p>
+    <p class="font-bold">Total Price: ${{ item.totalPrice }}</p>
+    <p class="card-detail">Action: {{ item.action }}</p>
+    <p v-if="item.amount > 0" class="card-detail">Salvage Amount: {{ item.amount }}</p>
+
   </div>
 </div>
 
+
+
 <button
         @click="exportPDF"
-        class="px-6 py-3 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600"
+        class="px-6 py-3 bg-blue-500 " style="background-color:#6259ca;border:none;color:white;border-radius:5px"
       >
         Export Report as PDF
       </button>
@@ -191,16 +194,20 @@ export default {
       const unitPrices = JSON.parse(this.data?.salvageUnitPrices || "[]");
       const quantities = JSON.parse(this.data?.salvageQuantities || "[]");
       const actions = JSON.parse(this.data?.salvageActions || "[]");
+      const amount = JSON.parse(this.data?.salvageAmounts || "[]");
       const images = JSON.parse(this.data?.salvageImages || "[]");
+
 
       // Combine into an array of objects
       return names.map((name, index) => ({
         name,
         unitPrice: unitPrices[index] || 0,
         quantity: quantities[index] || 0,
+        amount : amount[index] || 0,
         totalPrice: (unitPrices[index] || 0) * (quantities[index] || 0),
         action: actions[index] || "N/A",
-        image: images[index] || "placeholder.jpg", // Fallback image
+        image: images[index] && images[index] !== "no image found" ? images[index] : null, // Set to null if no image is found
+
       }));
     },
     supportingDocuments() {
@@ -271,9 +278,9 @@ export default {
 
 async fetchData() {
       try {
-        // const hashedId = this.$route.params.id; // Get the id from route params
-        // const id = atob(hashedId); // Decode the id if necessary
-        const id = this.$route.params.id;
+        const hashedId = this.$route.params.id; // Get the id from route params
+        const id = atob(hashedId); // Decode the id if necessary
+      
         const data = await QuotationService.fetchQuotationReport(id);
         this.data = data; // Set the fetched data
       } catch (error) {
@@ -314,7 +321,12 @@ width: 100%;
   /* background-color: #f9f9f9; */
   /* border:2px solid red; */
 }
-
+.cards {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 
 /* .logo-container {
@@ -455,7 +467,7 @@ margin-right:80px;
   width: 100%; /* Ensures image fills the full width of the card */
   height: 80%; /* Takes up 80% of the card's height */
   object-fit: cover; /* Ensures the image covers the area without distortion */
-  border:2px solid red;
+
   
 }
 

@@ -254,6 +254,15 @@
     <button class="btn btn-primary" style="margin-top:-12px;margin-left:20px" @click="openEditModal">
           Modify Quotation
         </button>
+          <!-- Only display the button if the quotation is submitted -->
+    <button
+  
+      class="btn btn-primary"
+      style="margin-top: -12px; margin-left: 20px"
+      @click="navigateToReport"
+    >
+    view quotation report
+    </button>
 
 
 
@@ -598,6 +607,23 @@ export default {
   },
   },
   methods: {
+     // Method to navigate to the 'View Report' page with hidden URL
+    navigateToReport() {
+      const quotationId = this.quotation.id; // Assuming 'id' is the quotation ID
+      const encodedId = btoa(quotationId); // Encoding the ID for URL
+      this.$router.push({ name: 'review-Accessor-report', params: { id: encodedId } });
+    },
+    async fetchQuotationReport() {
+      try {
+        // const hashedId = this.$route.params.id; // Get the id from route params
+        // const id = atob(hashedId); // Decode the id if necessary
+        const id = this.$route.params.id;
+        const data = await QuotationService.fetchQuotationReport(id);
+        this.data = data; // Set the fetched data
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    },
     addRow(type) {
       if (type === 'document') {
         this.form.supportingDocuments.push({ file: null, description: '' });
@@ -813,6 +839,7 @@ formData.append('quotationId', this.quotation.id);
     const hashedId = this.$route.params.id;
     const id = atob(hashedId);
     await this.fetchQuotationById(id);
+    await this.fetchQuotationReport(id);
   },
   beforeUnmount() {
     clearInterval(this.intervalId);

@@ -129,7 +129,7 @@ export default {
 
 // Add a delay before redirecting
 setTimeout(() => {
-    this.$router.push('/admin/dashboard'); // Adjust the route as needed
+    this.$router.push('/dashboard'); // Adjust the route as needed
 }, 2000); // Redirect after 2 seconds
       } catch (error) {
         Swal.fire({

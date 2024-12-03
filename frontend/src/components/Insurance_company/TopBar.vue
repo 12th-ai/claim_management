@@ -1,5 +1,5 @@
 <template>
-  <header id="page-topbar" style="z-index: 0; width: 84%; margin-left: 50px">
+  <header id="page-topbar" style="z-index: 2; width: 84%; margin-left: 50px">
     <div class="layout-width">
       <div class="navbar-header">
         <div class="d-flex">

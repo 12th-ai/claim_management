@@ -54,14 +54,22 @@
                           <label class="form-label" for="password-input">Password</label>
                           <div class="position-relative auth-pass-inputgroup">
                             <input
-                              :type="passwordVisible ? 'text' : 'password'"
-                              class="form-control pe-5 password-input"
-                              onpaste="return false"
-                              placeholder="Enter password"
-                              id="password-input"
-                              v-model="password"
-                              required
-                            />
+    :type="passwordVisible ? 'text' : 'password'"
+    class="form-control pe-5 password-input"
+    onpaste="return false"
+    placeholder="Enter password"
+    id="password-input"
+    v-model="password"
+    @input="validatePassword"
+    required
+  />
+  <!-- <ul class="password-hints">
+    <li :class="{ valid: passwordCriteria.length }">At least 8 characters</li>
+    <li :class="{ valid: passwordCriteria.uppercase }">At least one uppercase letter</li>
+    <li :class="{ valid: passwordCriteria.lowercase }">At least one lowercase letter</li>
+    <li :class="{ valid: passwordCriteria.digit }">At least one number</li>
+    <li :class="{ valid: passwordCriteria.special }">At least one special character</li>
+  </ul> -->
                             <button
                               class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
                               type="button"
@@ -111,6 +119,13 @@ export default {
       email: '',
       phoneNumber: '',
       password: '',
+      passwordCriteria: {
+      length: false,
+      uppercase: false,
+      lowercase: false,
+      digit: false,
+      special: false,
+    },
       avatarFile: null, // Holds the file object for upload
       avatarUrl: null,
       passwordVisible: false,
@@ -119,23 +134,37 @@ export default {
     };
   },
   methods: {
-    togglePasswordVisibility() {
-      this.passwordVisible = !this.passwordVisible;
-    },
-    triggerAvatarInput() {
-      this.$refs.avatarInput.click();
-    },
-    handleAvatarChange(event) {
-      const file = event.target.files[0];
-      if (file) {
-        this.avatarFile = file; // Save the file for FormData
-        const reader = new FileReader();
-        reader.onload = () => {
-          this.avatarUrl = reader.result; // Update avatar preview
-        };
-        reader.readAsDataURL(file);
+    validatePassword() {
+    const password = this.password;
+    this.passwordCriteria.length = password.length >= 8;
+    this.passwordCriteria.uppercase = /[A-Z]/.test(password);
+    this.passwordCriteria.lowercase = /[a-z]/.test(password);
+    this.passwordCriteria.digit = /[0-9]/.test(password);
+    this.passwordCriteria.special = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+  },
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  },
+  triggerAvatarInput() {
+    this.$refs.avatarInput.click();
+  },
+  handleAvatarChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif']; // Allowed image MIME types
+      if (!allowedTypes.includes(file.type)) {
+        alert('Please upload a valid image file (JPEG, PNG, or GIF).');
+        return;
       }
-    },
+      this.avatarFile = file; // Save the file for FormData
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.avatarUrl = reader.result; // Update avatar preview
+      };
+      reader.readAsDataURL(file);
+    }
+
+  },
     async submitForm() {
       // Create FormData for file upload
       const formData = new FormData();
@@ -165,7 +194,7 @@ export default {
 
     // Add a delay before redirecting
     setTimeout(() => {
-        this.$router.push('/admin'); // Adjust the route as needed
+        this.$router.push('/'); // Adjust the route as needed
     }, 2000); // Redirect after 2 seconds
 
       } catch (error) {
@@ -214,6 +243,21 @@ export default {
   height: 100%;
   object-fit: cover;
 }
+.password-hints {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.password-hints li {
+  color: red;
+  font-size: 0.9rem;
+}
+
+.password-hints li.valid {
+  color: green;
+}
+
 
 
 </style>

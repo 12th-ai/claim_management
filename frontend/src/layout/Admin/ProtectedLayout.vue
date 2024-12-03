@@ -3,8 +3,8 @@
     <Sidebar />
     <main>
       <TopBar :user="user" />
-      <div class="content-wrapper">
-      <router-view></router-view>
+      <div class="content-wrapper"  style="overflow-x:hidden">
+        <router-view></router-view>
       </div>
     </main>
   </div>
@@ -13,7 +13,6 @@
 <script>
 import Sidebar from '../../components/admin/Sidebar.vue';
 import TopBar from '../../components/admin/TopBar.vue';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import { authService } from '../../services/Admin/Auth'; // Import the authService
 
@@ -67,7 +66,7 @@ export default {
  
         // Add a delay before redirecting
         setTimeout(() => {
-          this.$router.push('/admin'); // Redirect to the login page
+          this.$router.push('/'); // Redirect to the login page
         }, 1000); // Redirect after 2 seconds
       });
     },
@@ -75,7 +74,48 @@ export default {
 };
 </script>
 
+<style scoped>
+/* CSS for layout design */
+#layout-wrapper {
+  display: flex;
+  height: 100vh; /* Full height viewport */
 
+}
+
+#layout-wrapper Sidebar {
+  width: 250px; /* Adjust sidebar width */
+  background-color: #f8f9fa; /* Sidebar background */
+  border-right: 1px solid #ddd;
+
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Ensure main fills the full height */
+
+}
+
+main TopBar {
+  height: 60px; /* Adjust top bar height */
+
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+
+}
+
+.content-wrapper {
+  flex-grow: 1;
+  padding: 40px;
+  overflow-y: auto;
+  margin-left: -60px;
+ 
+
+}
+</style>
 
 
 

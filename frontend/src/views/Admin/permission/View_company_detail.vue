@@ -2,7 +2,7 @@
 
   <div class="main-content">
     <div class="page-content" id="main-content">
-      <div class="container-fluid" style="margin-top: 20px; border-radius: 20px">
+      <div class="container-fluid" style="margin-top: 20px; margin-left:30px; border-radius:20px">
         <div class="profile-foreground position-relative mx-n4 mt-n4">
           <div class="profile-wid-bg"  style="border-radius: 20px;">
           

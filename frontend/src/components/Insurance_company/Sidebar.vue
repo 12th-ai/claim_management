@@ -5,31 +5,31 @@
     </div>
     <div class="separator"></div>
     <nav>
-      <!-- Default route for Dashboard -->
-      <router-link
-        :to="generatePath('Dashboard')" 
-        :class="{ 'active': isActive(generatePath('Dashboard')) }"
-        class="nav-link"
+      <!-- Dashboard route with unique home icon -->
+      <router-link 
+        to="/insurance_company/dashboard" 
+        class="nav-link" 
         exact-active-class="active"
       >
-        <div :class="['icon-container', { 'active-icon': isActive(generatePath('Dashboard')) }]">
-          <i :class="getIcon('Dashboard')" class="align-middle"></i>
+        <div class="icon-container">
+          <!-- Unique home icon for Dashboard -->
+          <i class="ri-home-4-line align-middle"></i>
         </div>
-        <span :class="['link-name', { 'active-text': isActive(generatePath('Dashboard')) }]">
+        <span class="link-name">
           Dashboard
         </span>
       </router-link>
 
+      <!-- Loss Accessor route -->
       <router-link
-        :to="generatePath('review-accessor')" 
-        :class="{ 'active': isActive(generatePath('dashboard/review-accessor')) }"
+        to="/insurance_company/dashboard/review-accessor"
         class="nav-link"
         exact-active-class="active"
       >
-        <div :class="['icon-container', { 'active-icon': isActive(generatePath('review-accessor')) }]">
-          <i :class="getIcon('dashboard/review-accessor')" class="align-middle"></i>
+        <div class="icon-container">
+          <i class="ri-briefcase-line align-middle"></i>
         </div>
-        <span :class="['link-name', { 'active-text': isActive(generatePath('review-accessor')) }]">
+        <span class="link-name">
           Loss Accessor
         </span>
       </router-link>
@@ -77,7 +77,7 @@ export default {
     },
     getIcon(module_name) {
       if (module_name === 'Dashboard') {
-        return 'ri-home-4-line';
+        return 'ri-home-4-line'; // Unique home icon for Dashboard
       }
       if (!module_name) {
         return 'ri-user-line';
@@ -97,6 +97,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .sidebar {
   background-color: #0e0e23;
@@ -142,7 +143,7 @@ export default {
 }
 
 .nav-link.disabled {
-  background-color:rgb(233, 133, 133) ;
+  background-color:rgb(233, 133, 133);
   color: white;
   pointer-events: none; /* Disable click interaction */
 }
@@ -198,4 +199,3 @@ export default {
   color: #6259ca;
 }
 </style>
-

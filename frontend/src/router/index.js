@@ -49,9 +49,18 @@ const router = createRouter({
             ],
         },
         {
-            path: "/admin/dashboard",
+            path: "/dashboard",
             component: ProtectedLayout,
-            children: [{
+            children: [
+
+                {
+                    path: "",
+                    name: "summary",
+                    component: () =>
+                        import ("@/views/Admin/summary/SummaryPage.vue"),
+
+                },
+                {
                     path: "review-module",
                     name: "review-module",
                     component: () =>
@@ -80,17 +89,29 @@ const router = createRouter({
             children: [{
                     path: "",
                     component: Insurance_Auth,
-                    children: [{
-                        name: "insurancelogin",
-                        path: "",
-                        component: () =>
-                            import ("@/views/insurance_company/auth/Login.vue"),
-                    }, ],
+
+                    children: [
+
+                        {
+                            name: "insurancelogin",
+                            path: "",
+                            component: () =>
+                                import ("@/views/insurance_company/auth/Login.vue"),
+                        },
+                    ],
                 },
                 {
-                    path: "dashboard",
+                    path: "dashboard/",
                     component: Protected_insurance,
-                    children: [{
+                    children: [
+
+                        {
+                            path: "",
+                            name: "summary",
+                            component: () =>
+                                import ("@/views/insurance_company/summary/SummaryPage.vue"),
+
+                        }, {
                             path: "review-accessor",
                             name: "review-accessor",
                             component: () =>
@@ -112,6 +133,14 @@ const router = createRouter({
                             component: () =>
                                 import (
                                     "@/views/insurance_company/Quotations/View_Quotation_detail.vue"
+                                ),
+                        },
+                        {
+                            path: "quotations/report/:id",
+                            name: "review-Company-report",
+                            component: () =>
+                                import (
+                                    "@/views/insurance_company/Quotations/Quotation_report.vue"
                                 ),
                         },
                     ],
